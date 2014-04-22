@@ -1,0 +1,175 @@
+﻿<!--
+/*
+ * Copyright (C) 2014 Bernat Mut <berni.emerald@gmail.com>
+ * 
+ * This file is part of Traductor Softcatala.
+ * Traductor Softcatala is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+    -->
+    <phone:PhoneApplicationPage
+    x:Class="TraductorSoftcatala.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ad="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
+    xmlns:GoogleAds="clr-namespace:GoogleAds;assembly=GoogleAds"
+    xmlns:src="clr-namespace:TraductorSoftcatala"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+
+    >
+
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+    <shell:ApplicationBar Mode="Minimized" Opacity="1.0" IsMenuEnabled="False">
+
+            <shell:ApplicationBarIconButton IconUri="/Assets/appbar.microphone.png" Text="Speech Rec." Click="ApplicationBarIconButton_Click"/>
+
+    </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.Resources>
+            <src:VisibilityConverter x:Key="visibilityConverter"/>
+
+        </Grid.Resources>
+        <!--Pivot Control--> 
+        <phone:Pivot Title="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}">
+            <!--Pivot item one-->
+            <phone:PivotItem Header="{Binding Path=LocalizedResources.Title1, Source={StaticResource LocalizedStrings}}">
+                    <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <toolkit:ListPicker  Style="{StaticResource  customStyle123}"
+                                         SelectionMode="Single"  Name="lpLanguage"
+                                        Header="{Binding Path=LocalizedResources.Llenguatges, Source={StaticResource LocalizedStrings}}"
+                                         FullModeHeader="{Binding Path=LocalizedResources.Llenguatges, Source={StaticResource LocalizedStrings}}"
+                                         ItemsSource="{Binding LanguageList}"
+                                         ItemTemplate="{StaticResource EssidPickerItemTemplate}"
+                                         FullModeItemTemplate="{StaticResource EssidPickerFullModeItemTemplate}"
+                                         Grid.Column="0" Grid.Row="0" SelectionChanged="lpLanguage_SelectionChanged">
+
+                        </toolkit:ListPicker>
+
+                    </Grid>
+                    <CheckBox Name="check" IsChecked="{Binding ValenciaSelected, Mode=TwoWay}"
+                               >
+                        <TextBlock Text="{Binding Path=LocalizedResources.Valencia, Source={StaticResource LocalizedStrings}}"></TextBlock>
+                    </CheckBox>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" AllowDrop="False" ManipulationMode="Control" Height="250">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=LocalizedResources.TextTraduir, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSmallStyle}"  ></TextBlock>
+                            <TextBox  Name="textToTranslateEdit"  FontSize="16"   TextWrapping="Wrap" Height="100"
+                                     AcceptsReturn="True"></TextBox>
+                            <TextBlock Text="{Binding Path=LocalizedResources.TextTraduit, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextSmallStyle}"></TextBlock>
+
+                            <TextBox Name="textTranslated"    FontSize="14" TextWrapping="Wrap" Height="100"
+                             IsReadOnly="True"></TextBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <ad:AdControl AdRefreshed="AdControl_AdRefreshed" ErrorOccurred="AdControl_ErrorOccurred"
+                                  ApplicationId="{Binding MsApplicationId}"
+                                  AdUnitId="{Binding MsAdUnitId}"
+                                  IsAutoRefreshEnabled="True"
+                                  Width="480" Height="80"
+                                  IsAutoCollapseEnabled="True"
+                                  
+                                  Visibility="{Binding MsVisibilityResult, Converter={StaticResource visibilityConverter}}"
+                                  />
+                    <GoogleAds:AdView
+                        AdUnitID="ca-app-pub-5509219369604154/7042657222"
+                          Format="Banner"
+                          ReceivedAd="AdView_ReceivedAd"
+                          FailedToReceiveAd="AdView_FailedToReceiveAd"
+                          VerticalAlignment="Bottom"
+                          Visibility="Collapsed"
+                        />
+                    <Button Name="Genera" Click="OnTranslate" >
+                        <TextBlock Text="{Binding Path=LocalizedResources.Tradueix, Source={StaticResource LocalizedStrings}}"></TextBlock>
+                    </Button>
+                </StackPanel>
+
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="About">
+                <StackPanel>
+                    <TextBlock  FontSize="40">
+                        <Run Text="{Binding Path=LocalizedResources.TxtAbout, Source={StaticResource LocalizedStrings}}"/>
+                    </TextBlock>
+                    <TextBlock >
+                        <Run  Text="{Binding Path=LocalizedResources.TxtVersion, Source={StaticResource LocalizedStrings}}"/>
+                    </TextBlock>
+                    <TextBlock Text="{Binding AppVersion}"></TextBlock>
+                    <TextBlock Margin="0,10,0,0" >
+                        <Run Text="{Binding Path=LocalizedResources.TxtContacto, Source={StaticResource LocalizedStrings}}"/>
+                    </TextBlock>
+                    <HyperlinkButton HorizontalAlignment="Left" Name="emailLink" Content="apps@bitsdelocos.es" Click="EmailLink_Click" />
+                    <TextBlock Margin="0,10,0,0"  >
+                        <Run Text="{Binding Path=LocalizedResources.TxtInfo, Source={StaticResource LocalizedStrings}}"/>
+                    </TextBlock>
+                    <HyperlinkButton Style="{StaticResource Links}" Content="{Binding Path=LocalizedResources.TxtLegal, Source={StaticResource LocalizedStrings}}" NavigateUri="{Binding Path=LocalizedResources.AppPrivacyURL, Source={StaticResource LocalizedStrings}}" TargetName="_blank"/>
+                    <HyperlinkButton Style="{StaticResource Links}" Content="{Binding Path=LocalizedResources.TxtTerminos, Source={StaticResource LocalizedStrings}}" NavigateUri="{Binding Path=LocalizedResources.AppPrivacyURL, Source={StaticResource LocalizedStrings}}" TargetName="_blank"/>
+                    <HyperlinkButton  Style="{StaticResource Links}" Content="{Binding Path=LocalizedResources.TxtPrivacidad, Source={StaticResource LocalizedStrings}}"  NavigateUri="{Binding Path=LocalizedResources.AppPrivacyURL, Source={StaticResource LocalizedStrings}}" TargetName="_blank"/>
+                    <TextBlock Text="{Binding Path=LocalizedResources.Agraiments, Source={StaticResource LocalizedStrings}}" Margin="0,10,0,0" ></TextBlock>
+                    <TextBlock Text="www.BitsDeLocos.es" Margin="10,0,0,0"></TextBlock>
+                    <TextBlock Text="www.SoftCatala.org" Margin="10,0,0,0"></TextBlock>
+                    <Button Margin="0,10,0,0" BorderThickness="0" Click="donateClick">
+                        <Image Source="Assets/btn_donate_LG.gif" Height="30" ></Image>
+                    </Button>
+
+                    <ad:AdControl AdRefreshed="AdControl_AdRefreshed"
+                                  ErrorOccurred="AdControl_ErrorOccurred"
+                                  ApplicationId="{Binding MsApplicationId}"
+                                  AdUnitId="{Binding MsAdUnitId}"
+                                  IsAutoRefreshEnabled="True"
+                                  Width="480" Height="80"
+                                  IsAutoCollapseEnabled="True"
+                         Visibility="{Binding MsVisibilityResult, Converter={StaticResource visibilityConverter}}"         
+                                  />
+                    
+                    <GoogleAds:AdView
+                        AdUnitID="ca-app-pub-5509219369604154/7042657222"
+                          Format="Banner"
+                          ReceivedAd="AdView_ReceivedAd"
+                          FailedToReceiveAd="AdView_FailedToReceiveAd"
+                          VerticalAlignment="Bottom"
+                          Visibility="Collapsed"
+                        />
+                </StackPanel>
+            </phone:PivotItem>
+
+        </phone:Pivot>
+
+
+
+    </Grid>
+
+</phone:PhoneApplicationPage>
