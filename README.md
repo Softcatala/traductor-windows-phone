@@ -2,7 +2,7 @@ traductor-windows-phone
 =======================
 --- Introduction
 
-This is a Android client for the Softcatalà on-line web translation service (http://www.softcatala.org/traductor)
+This is a Windows Phone client for the Softcatalà on-line web translation service (http://www.softcatala.org/traductor)
 
 Project: http://www.softcatala.org/wiki/Projectes/Traductor
 
