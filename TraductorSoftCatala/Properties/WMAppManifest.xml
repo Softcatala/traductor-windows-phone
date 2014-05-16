@@ -6,7 +6,7 @@
     <Language code="es" />
     <Language code="en" />
   </Languages>
-  <App xmlns="" ProductID="{04c497fb-20e9-4869-930e-87d60335ef42}" Title="Traductor Softcatalà" RuntimeType="Silverlight" Version="1.0.0.2" Genre="apps.normal" Author="Bernat Mut" Description="Traductor basat en el traductor Android de Softcatalà. " Publisher="BitsDeLocos" PublisherID="{5a219611-db7e-4752-9620-21c48dfc1588}">
+  <App xmlns="" ProductID="{04c497fb-20e9-4869-930e-87d60335ef42}" Title="Traductor Softcatalà" RuntimeType="Silverlight" Version="1.0.0.3" Genre="apps.normal" Author="Bernat Mut" Description="Traductor basat en el traductor Android de Softcatalà. " Publisher="BitsDeLocos" PublisherID="{5a219611-db7e-4752-9620-21c48dfc1588}">
     <IconPath IsRelative="true" IsResource="false">Assets\softcatala-300x300.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
